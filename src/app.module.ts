@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './app/user/user.module';
+import { AccountingSourceModule } from './app/accounting-source/accounting-source.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from './app/user/user.module';
     AuthModule,
     UserModule,
     AccountingBookModule,
+    AccountingSourceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
