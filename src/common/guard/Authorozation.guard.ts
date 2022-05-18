@@ -21,8 +21,12 @@ export class Authorization implements CanActivate {
       const user = new Jwt().verifyUserToken(token.replace('Bearer ', ''));
       if (!user) throw new Error('Token not valid');
 
-      const u = await this.userService.findByIdOne('628492e418d53be376c5113c');
-      req['user'] = u;
+      const u = await this.userService.findByIdOne(user['_id']);
+      req.user = {
+        _id: u._id.toString(),
+        firstname: u.firstname,
+        lastname: u.lastname,
+      };
 
       return true;
     } catch (error) {

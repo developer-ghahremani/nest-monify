@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import {
   Controller,
   Get,
@@ -7,6 +8,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { Authorization } from 'src/common/guard/Authorozation.guard';
 import { AccountingBookService } from './accounting-book.service';
@@ -18,14 +20,21 @@ export class AccountingBookController {
   constructor(private readonly accountingBookService: AccountingBookService) {}
 
   @Post()
-  create(@Body() createAccountingBookDto: CreateAccountingBookDto) {
-    return this.accountingBookService.create(createAccountingBookDto);
+  @UseGuards(Authorization)
+  create(
+    @Req() request: Request,
+    @Body() createAccountingBookDto: CreateAccountingBookDto,
+  ) {
+    return this.accountingBookService.create(
+      request.user?._id,
+      createAccountingBookDto,
+    );
   }
 
-  @UseGuards(Authorization)
   @Get()
-  findAll() {
-    return this.accountingBookService.findAll();
+  @UseGuards(Authorization)
+  findAll(@Req() request: Request) {
+    return this.accountingBookService.findAll(request.user._id);
   }
 
   @Get(':id')

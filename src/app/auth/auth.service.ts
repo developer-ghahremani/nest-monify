@@ -59,4 +59,9 @@ export class AuthService {
       throw new HttpException(error.message, 500);
     }
   }
+
+  async whoApI(userId: string) {
+    const user = await this.userServicre.findByIdOne(userId);
+    return user;
+  }
 }

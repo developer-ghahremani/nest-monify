@@ -12,3 +12,14 @@ export class Jwt {
     return jwt.verify(data, this.userSecretkey);
   }
 }
+
+interface UserIntrerface {
+  _id: string;
+  firstname: string;
+  lastname: string;
+}
+declare module 'express' {
+  interface Request {
+    user: UserIntrerface;
+  }
+}
