@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './app/user/user.module';
+import { AccountingBookModule } from './app/accounting-book/accounting-book.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './app/user/user.module';
     ),
     UserModule,
     AuthModule,
+    AccountingBookModule,
   ],
   controllers: [AppController],
   providers: [AppService],
