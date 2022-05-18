@@ -12,6 +12,7 @@ import { UserModule } from '../user/user.module';
 @Module({
   controllers: [AccountingBookController],
   providers: [AccountingBookService],
+  exports: [AccountingBookService],
   imports: [
     UserModule,
     MongooseModule.forFeature([

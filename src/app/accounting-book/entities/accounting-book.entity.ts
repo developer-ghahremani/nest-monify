@@ -6,8 +6,10 @@ import { Schema as MongooseSchema } from 'mongoose';
 export class AccountingBook {
   @Prop({ required: true })
   title: string;
+
   @Prop()
   userId: string;
+
   @Prop()
   financialUnit: string;
 
