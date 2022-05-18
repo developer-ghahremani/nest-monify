@@ -8,8 +8,17 @@ import { User } from './entity/user.entity';
 export class UserService {
   constructor(@InjectModel(User.name) private userService: Model<User>) {}
 
-  findOne(params: { mobile?: string; firstname?: string; lastname?: string }) {
+  findOne(params: {
+    mobile?: string;
+    firstname?: string;
+    lastname?: string;
+    _id?: string;
+  }) {
     return this.userService.findOne(params);
+  }
+
+  findByIdOne(id: string) {
+    return this.userService.findById(id);
   }
 
   create(params: {

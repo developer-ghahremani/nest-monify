@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+
 export class Jwt {
   userSecretkey: string;
   constructor() {
@@ -6,5 +7,8 @@ export class Jwt {
   }
   generateUserToken(data: any) {
     return jwt.sign(data, this.userSecretkey);
+  }
+  verifyUserToken(data: any) {
+    return jwt.verify(data, this.userSecretkey);
   }
 }
