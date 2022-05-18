@@ -4,8 +4,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
+import { AccountingBook } from './../accounting-book/entities/accounting-book.entity';
+import { InjectModel } from '@nestjs/mongoose';
 import { Jwt } from './../../common/helper/jwt';
 import { LoginDTO } from './dto/login.dto';
+import { Model } from 'mongoose';
 import { Password } from './../../common/helper/password';
 import { Response } from 'express';
 import { SendSMSDTO } from './dto/sendSMS.dto';
@@ -60,8 +63,7 @@ export class AuthService {
     }
   }
 
-  async whoApI(userId: string) {
-    const user = await this.userServicre.findByIdOne(userId);
-    return user;
+  whoApI(userId: string) {
+    return this.userServicre.whoAmI(userId);
   }
 }

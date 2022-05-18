@@ -2,6 +2,7 @@ import {
   AccountingBook,
   AccountingBookSchema,
 } from './entities/accounting-book.entity';
+import { User, UserSchema } from './../user/entity/user.entity';
 
 import { AccountingBookController } from './accounting-book.controller';
 import { AccountingBookService } from './accounting-book.service';

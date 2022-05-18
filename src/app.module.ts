@@ -1,4 +1,5 @@
 import { AccountingBookModule } from './app/accounting-book/accounting-book.module';
+import { AccountingSourceModule } from './app/accounting-source/accounting-source.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './app/auth/auth.module';
@@ -6,7 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './app/user/user.module';
-import { AccountingSourceModule } from './app/accounting-source/accounting-source.module';
 
 @Module({
   imports: [

@@ -1,3 +1,7 @@
+import {
+  AccountingBook,
+  AccountingBookSchema,
+} from './../accounting-book/entities/accounting-book.entity';
 import { User, UserSchema } from './entity/user.entity';
 
 import { Module } from '@nestjs/common';
@@ -6,7 +10,10 @@ import { UserService } from './user.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: AccountingBook.name, schema: AccountingBookSchema },
+    ]),
   ],
   providers: [UserService],
   exports: [UserService],

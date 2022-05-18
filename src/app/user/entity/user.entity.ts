@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
-export class User {
+export class User extends mongoose.Document {
   @Prop()
   firstname: string;
   @Prop()
@@ -16,6 +16,9 @@ export class User {
   createdAt: Date;
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   updatedAt: Date;
+
+  @Prop({ type: mongoose.Types.ObjectId })
+  accountingBookId: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

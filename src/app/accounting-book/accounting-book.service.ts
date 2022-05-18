@@ -1,3 +1,4 @@
+import { User } from './../user/entity/user.entity';
 import { AccountingBook } from './entities/accounting-book.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -25,6 +26,7 @@ export class AccountingBookService {
 
   async findAll(userId: string) {
     const accountingBooks = await this.accountingBook.find({ userId });
+
     return accountingBooks;
   }
 

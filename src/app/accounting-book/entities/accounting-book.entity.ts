@@ -1,14 +1,15 @@
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { Schema as MongooseSchema } from 'mongoose';
+import { User } from './../../user/entity/user.entity';
 
 @Schema()
-export class AccountingBook {
+export class AccountingBook extends Document {
   @Prop({ required: true })
   title: string;
 
-  @Prop()
-  userId: string;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
+  userId: User;
 
   @Prop()
   financialUnit: string;

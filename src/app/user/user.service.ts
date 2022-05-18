@@ -1,4 +1,4 @@
-import { Password } from './../../common/helper/password';
+import { AccountingBook } from 'src/app/accounting-book/entities/accounting-book.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -6,7 +6,11 @@ import { User } from './entity/user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userService: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userService: Model<User>,
+    @InjectModel(AccountingBook.name)
+    private accountingBook: Model<AccountingBook>,
+  ) {}
 
   findOne(params: {
     mobile?: string;
@@ -43,5 +47,11 @@ export class UserService {
       ...params,
       updatedAt: new Date(),
     });
+  }
+
+  async whoAmI(_id: string) {
+    const user = await this.findOne({ _id });
+    const accountingBooks = await this.accountingBook.find({ userId: _id });
+    return { ...user.toObject(), accountingBooks };
   }
 }
