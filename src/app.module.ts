@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './app/user/user.module';
 import { WalletModule } from './app/wallet/wallet.module';
+import { SourceModule } from './app/source/source.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { WalletModule } from './app/wallet/wallet.module';
     UserModule,
     WalletModule,
     FinancialUnitModule,
+    SourceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
