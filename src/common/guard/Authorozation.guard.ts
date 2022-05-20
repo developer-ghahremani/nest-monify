@@ -24,8 +24,8 @@ export class Authorization implements CanActivate {
       const u = await this.userService.findByIdOne(user['_id']);
       req.user = {
         _id: u._id.toString(),
-        firstname: u.firstname,
-        lastname: u.lastname,
+        firstName: u.firstName,
+        lastName: u.lastName,
       };
 
       return true;

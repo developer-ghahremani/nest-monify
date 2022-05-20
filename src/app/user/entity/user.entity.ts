@@ -5,20 +5,23 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema()
 export class User {
   @Prop()
-  firstname: string;
+  firstName: string;
   @Prop()
-  lastname: string;
+  lastName: string;
   @Prop({ unique: true, required: true })
   mobile: string;
   @Prop()
   password: string;
+  @Prop()
+  username: string;
+  @Prop()
+  email: string;
+  @Prop()
+  birthdate: Date;
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   createdAt: Date;
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   updatedAt: Date;
-
-  @Prop({ type: mongoose.Types.ObjectId })
-  accountingBookId: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

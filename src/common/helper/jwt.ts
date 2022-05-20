@@ -15,8 +15,8 @@ export class Jwt {
 
 interface UserIntrerface {
   _id: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
 }
 declare module 'express' {
   interface Request {

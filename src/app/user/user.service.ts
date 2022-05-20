@@ -34,8 +34,11 @@ export class UserService {
     params: {
       mobile?: string;
       password?: string;
-      firstname?: string;
-      lastname?: string;
+      firstName?: string;
+      lastName?: string;
+      birthdate?: Date;
+      username?: string;
+      email?: string;
     },
   ) {
     return this.userService.findByIdAndUpdate(id, {

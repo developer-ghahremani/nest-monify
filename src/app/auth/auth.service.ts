@@ -9,6 +9,7 @@ import { LoginDTO } from './dto/login.dto';
 import { Password } from './../../common/helper/password';
 import { Response } from 'express';
 import { SendSMSDTO } from './dto/sendSMS.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserService } from '../user/user.service';
 import { random } from 'lodash';
 
@@ -63,5 +64,10 @@ export class AuthService {
 
   whoApI(userId: string) {
     return this.userServicre.whoAmI(userId);
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userServicre.update(id, updateUserDto);
+    return { ...user.toObject(), ...updateUserDto };
   }
 }
