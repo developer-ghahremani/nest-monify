@@ -1,5 +1,3 @@
-import { AccountingBookModule } from './app/accounting-book/accounting-book.module';
-import { AccountingSourceModule } from './app/accounting-source/accounting-source.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './app/auth/auth.module';
@@ -20,8 +18,6 @@ import { UserModule } from './app/user/user.module';
     ),
     AuthModule,
     UserModule,
-    AccountingBookModule,
-    AccountingSourceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

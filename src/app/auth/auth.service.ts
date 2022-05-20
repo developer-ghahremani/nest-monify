@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { AccountingBook } from './../accounting-book/entities/accounting-book.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Jwt } from './../../common/helper/jwt';
 import { LoginDTO } from './dto/login.dto';
