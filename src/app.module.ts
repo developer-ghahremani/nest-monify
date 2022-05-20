@@ -10,6 +10,7 @@ import { WalletModule } from './app/wallet/wallet.module';
 import { SourceModule } from './app/source/source.module';
 import { CategoryModule } from './app/category/category.module';
 import { TagModule } from './app/tag/tag.module';
+import { TransactionModule } from './app/transaction/transaction.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TagModule } from './app/tag/tag.module';
     SourceModule,
     CategoryModule,
     TagModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
