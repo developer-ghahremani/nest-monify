@@ -4,14 +4,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { InjectModel } from '@nestjs/mongoose';
 import { Jwt } from './../../common/helper/jwt';
 import { LoginDTO } from './dto/login.dto';
-import { Model } from 'mongoose';
 import { Password } from './../../common/helper/password';
 import { Response } from 'express';
 import { SendSMSDTO } from './dto/sendSMS.dto';
 import { UserService } from '../user/user.service';
+import { random } from 'lodash';
 
 @Injectable()
 export class AuthService {
@@ -39,7 +38,7 @@ export class AuthService {
       const user = await this.userServicre.findOne({
         mobile: sendSMSDto.mobile,
       });
-      const smsCode = Math.floor(Math.random() * 1000000);
+      const smsCode = random(100000, 999999);
       const hashed = await new Password().hashPass(smsCode.toString());
       console.log(smsCode);
 

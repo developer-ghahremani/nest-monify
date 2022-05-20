@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
-export class User extends mongoose.Document {
+export class User {
   @Prop()
   firstname: string;
   @Prop()
