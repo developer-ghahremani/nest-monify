@@ -16,6 +16,7 @@ export class FinancialUnitService {
     const financialUnit = await this.financialUni.create(
       createFinancialUnitDto,
     );
+
     return financialUnit;
   }
 
