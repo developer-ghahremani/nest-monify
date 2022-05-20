@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { FinancialUnit } from './../../financial-unit/entities/financial-unit.entity';
+import { Types } from 'mongoose';
 import { User } from './../../user/entity/user.entity';
 
 @Schema()
@@ -8,10 +9,10 @@ export class Wallet {
   @Prop()
   name: string;
 
-  @Prop({ ref: User.name })
+  @Prop({ ref: User.name, type: Types.ObjectId })
   userId: User;
 
-  @Prop()
+  @Prop({ ref: FinancialUnit.name, type: Types.ObjectId })
   financialUnitId: FinancialUnit;
 
   @Prop()

@@ -16,12 +16,14 @@ export class Authorization implements CanActivate {
     try {
       const req: Request = context.switchToHttp().getRequest();
       const token = req.headers.authorization;
-
       if (!token) throw new Error('Token not exists');
+
       const user = new Jwt().verifyUserToken(token.replace('Bearer ', ''));
       if (!user) throw new Error('Token not valid');
 
       const u = await this.userService.findByIdOne(user['_id']);
+      if (!u) throw new Error('User not found');
+
       req.user = {
         _id: u._id.toString(),
         firstName: u.firstName,
