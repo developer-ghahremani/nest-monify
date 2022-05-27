@@ -1,11 +1,16 @@
+import { Wallet } from './../wallet/entity/wallet.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { WalletService } from '../wallet/wallet.service';
 import { User } from './entity/user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userService: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userService: Model<User>,
+    @InjectModel(Wallet.name) private wallet: Model<Wallet>,
+  ) {}
 
   findOne(params: {
     mobile?: string;
@@ -49,7 +54,10 @@ export class UserService {
 
   async whoAmI(_id: string) {
     const user = await this.findOne({ _id });
+    const wallets = await this.wallet
+      .find({ userId: _id })
+      .populate('financialUnitId');
 
-    return { ...user.toObject() };
+    return { ...user.toObject(), wallets };
   }
 }
