@@ -18,6 +18,9 @@ export class Wallet {
   @Prop()
   color: string;
 
+  @Prop({ default: 0 })
+  amount: number;
+
   @Prop({ default: new Date() })
   createAt: Date;
 
