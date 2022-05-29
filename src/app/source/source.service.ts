@@ -9,8 +9,15 @@ import { Model } from 'mongoose';
 export class SourceService {
   constructor(@InjectModel(Source.name) private source: Model<Source>) {}
 
-  async create(userId: string, createSourceDto: CreateSourceDto) {
-    const source = await this.source.create({ userId, ...createSourceDto });
+  async create(
+    userId: string,
+    { initialAmount, ...createSourceDto }: CreateSourceDto,
+  ) {
+    const source = await this.source.create({
+      userId,
+      amount: initialAmount,
+      ...createSourceDto,
+    });
     return source;
   }
 
