@@ -4,20 +4,29 @@ import { UpdateSourceDto } from './dto/update-source.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Source } from './entities/source.entity';
 import { Model } from 'mongoose';
+import { Wallet } from '../wallet/entity/wallet.entity';
 
 @Injectable()
 export class SourceService {
-  constructor(@InjectModel(Source.name) private source: Model<Source>) {}
+  constructor(
+    @InjectModel(Source.name) private source: Model<Source>,
+    @InjectModel(Wallet.name) private wallet: Model<Wallet>,
+  ) {}
 
   async create(
     userId: string,
-    { initialAmount, ...createSourceDto }: CreateSourceDto,
+    { initialAmount, walletId, ...createSourceDto }: CreateSourceDto,
   ) {
     const source = await this.source.create({
       userId,
       amount: initialAmount,
+      walletId,
       ...createSourceDto,
     });
+    const w = await this.wallet.findById(walletId);
+    w.amount = w.amount + initialAmount;
+
+    await w.save();
     return source;
   }
 

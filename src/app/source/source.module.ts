@@ -1,4 +1,5 @@
 import { Source, SourceSchema } from './entities/source.entity';
+import { Wallet, WalletSchema } from './../wallet/entity/wallet.entity';
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -10,7 +11,10 @@ import { UserModule } from './../user/user.module';
   controllers: [SourceController],
   providers: [SourceService],
   imports: [
-    MongooseModule.forFeature([{ name: Source.name, schema: SourceSchema }]),
+    MongooseModule.forFeature([
+      { name: Source.name, schema: SourceSchema },
+      { name: Wallet.name, schema: WalletSchema },
+    ]),
     UserModule,
   ],
 })
