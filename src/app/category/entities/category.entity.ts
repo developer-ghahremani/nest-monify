@@ -6,6 +6,8 @@ import { Wallet } from './../../wallet/entity/wallet.entity';
 
 @Schema()
 export class Category {
+  _id: string;
+
   @Prop({ required: true })
   name: string;
 
@@ -27,7 +29,7 @@ export class Category {
   @Prop({ default: new Date() })
   updatedAt: Date;
 
-  @Prop({ ref: Wallet.name, type: Types.ObjectId })
+  @Prop({ ref: Wallet.name, type: Types.ObjectId, required: true })
   walletId: Wallet;
 
   @Prop({ ref: User.name, type: Types.ObjectId })

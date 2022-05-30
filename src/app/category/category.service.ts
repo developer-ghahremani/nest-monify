@@ -17,14 +17,24 @@ export class CategoryService {
     return category;
   }
 
-  async findAll(userId: string) {
+  async findAll(userId: string, walletId: string) {
     const categories = await this.category
       .find({
         userId,
+        walletId,
       })
-      .populate('walletId')
       .populate('parentId');
-    return categories;
+    const temp = categories.filter((item) => !item.parentId);
+    const categoryWithChildren = temp.map((item) => {
+      const t = categories.filter((i) => {
+        console.log(item._id.toString(), i.parentId?._id.toString());
+
+        return i.parentId && i.parentId._id.toString() === item._id.toString();
+      });
+
+      return { ...item.toObject(), children: t.map((item) => item.toObject()) };
+    });
+    return categoryWithChildren;
   }
 
   // findOne(id: number) {

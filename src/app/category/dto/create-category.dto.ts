@@ -6,12 +6,20 @@ import {
   IsString,
 } from 'class-validator';
 
-import { CategoryType } from './../entities/categotyType.enym';
+import { CategoryType } from '../entities/categotyType.enum';
 
 export class CreateCategoryDto {
   @IsNotEmpty()
   @IsString()
   name: string;
+
+  @IsNotEmpty()
+  @IsMongoId()
+  walletId: string;
+
+  @IsNotEmpty()
+  @IsEnum(CategoryType)
+  type: number;
 
   @IsOptional()
   @IsString()
@@ -21,16 +29,8 @@ export class CreateCategoryDto {
   @IsString()
   icon: string;
 
-  @IsNotEmpty()
-  @IsEnum(CategoryType)
-  type: number;
-
   @IsOptional()
   order: number;
-
-  @IsNotEmpty()
-  @IsMongoId()
-  walletId: string;
 
   @IsOptional()
   @IsMongoId()
