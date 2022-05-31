@@ -1,4 +1,6 @@
+import { Source, SourceSchema } from './../source/entities/source.entity';
 import { Transaction, TransactionSchema } from './entities/transaction.entity';
+import { Wallet, WalletSchema } from './../wallet/entity/wallet.entity';
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -13,6 +15,8 @@ import { UserModule } from './../user/user.module';
     UserModule,
     MongooseModule.forFeature([
       { name: Transaction.name, schema: TransactionSchema },
+      { name: Source.name, schema: SourceSchema },
+      { name: Wallet.name, schema: WalletSchema },
     ]),
   ],
 })

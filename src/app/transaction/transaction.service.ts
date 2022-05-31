@@ -1,3 +1,5 @@
+import { Source } from './../source/entities/source.entity';
+import { Wallet } from './../wallet/entity/wallet.entity';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { Injectable } from '@nestjs/common';
@@ -10,13 +12,31 @@ export class TransactionService {
   constructor(
     @InjectModel(Transaction.name)
     private readonly transaction: Model<Transaction>,
+    @InjectModel(Wallet.name)
+    private readonly wallet: Model<Wallet>,
+    @InjectModel(Source.name)
+    private readonly source: Model<Source>,
   ) {}
 
   async create(userId: string, createTransactionDto: CreateTransactionDto) {
     const trs = await this.transaction.create({
       userId,
+      createdAt: new Date(),
       ...createTransactionDto,
     });
+    const source = await this.source.findOne({
+      userId,
+      walletId: createTransactionDto.walletId,
+    });
+
+    source.amount =
+      source.amount + createTransactionDto.amount * createTransactionDto.type;
+    await source.save();
+
+    const wallet = await this.wallet.findById(createTransactionDto.walletId);
+    wallet.amount =
+      wallet.amount + createTransactionDto.amount * createTransactionDto.type;
+    await wallet.save();
 
     return trs;
   }
@@ -24,7 +44,8 @@ export class TransactionService {
   async findAll(params: { userId: string; walletId: string }) {
     const trs = await this.transaction
       .find(params)
-      .populate('categoryId walletId tags sourceId')
+      // .populate('categoryId walletId tags sourceId')
+      .populate('categoryId tags sourceId')
       .sort('-createdAt');
     return trs;
   }
