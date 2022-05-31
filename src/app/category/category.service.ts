@@ -27,7 +27,7 @@ export class CategoryService {
     const temp = categories.filter((item) => !item.parentId);
     const categoryWithChildren = temp.map((item) => {
       const t = categories.filter((i) => {
-        console.log(item._id.toString(), i.parentId?._id.toString());
+        // console.log(item._id.toString(), i.parentId?._id.toString());
 
         return i.parentId && i.parentId._id.toString() === item._id.toString();
       });
@@ -41,9 +41,17 @@ export class CategoryService {
   //   return `This action returns a #${id} category`;
   // }
 
-  // update(id: number, updateCategoryDto: UpdateCategoryDto) {
-  //   return `This action updates a #${id} category`;
-  // }
+  async update(
+    userId: string,
+    id: string,
+    updateCategoryDto: UpdateCategoryDto,
+  ) {
+    const category = await this.category.findOneAndUpdate(
+      { _id: id, userId },
+      updateCategoryDto,
+    );
+    return { ...category.toObject(), ...updateCategoryDto };
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} category`;

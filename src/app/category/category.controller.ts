@@ -1,3 +1,4 @@
+import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Authorization } from 'src/common/guard/Authorozation.guard';
 import {
   Controller,
@@ -7,6 +8,7 @@ import {
   UseGuards,
   Req,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -36,10 +38,15 @@ export class CategoryController {
   //   return this.categoryService.findOne(+id);
   // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-  //   return this.categoryService.update(+id, updateCategoryDto);
-  // }
+  @UseGuards(Authorization)
+  @Patch(':id')
+  update(
+    @Req() request: Request,
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    return this.categoryService.update(request.user._id, id, updateCategoryDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {
