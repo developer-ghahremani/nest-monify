@@ -27,7 +27,7 @@ export class WalletService {
   }
 
   findOne(userId: string, _id: string) {
-    return this.wallet.findOne({ userId, _id });
+    return this.wallet.findOne({ userId, _id }).populate('financialUnitId');
   }
 
   update(userId: string, walletId: string, updateWalletDto: UpdateWalletDto) {

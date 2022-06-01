@@ -9,12 +9,14 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { request } from 'http';
 import { Request } from 'express';
+import { FindTransactionQuery } from './dto/find-transaction.dto';
 
 @Controller('transaction')
 export class TransactionController {
@@ -34,28 +36,11 @@ export class TransactionController {
 
   @UseGuards(Authorization)
   @Get(':walletId')
-  findAll(@Req() request: Request, @Param('walletId') walletId: string) {
-    return this.transactionService.findAll({
-      userId: request.user._id,
-      walletId,
-    });
+  findAll(
+    @Req() request: Request,
+    @Param('walletId') walletId: string,
+    @Query() query: FindTransactionQuery,
+  ) {
+    return this.transactionService.findAll(request.user._id, walletId, query);
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.transactionService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateTransactionDto: UpdateTransactionDto,
-  // ) {
-  //   return this.transactionService.update(+id, updateTransactionDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.transactionService.remove(+id);
-  // }
 }

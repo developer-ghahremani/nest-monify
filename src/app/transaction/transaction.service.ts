@@ -1,3 +1,4 @@
+import { FindTransactionQuery } from './dto/find-transaction.dto';
 import { Source } from './../source/entities/source.entity';
 import { Wallet } from './../wallet/entity/wallet.entity';
 import { Transaction } from './entities/transaction.entity';
@@ -25,10 +26,7 @@ export class TransactionService {
       ...createTransactionDto,
     });
 
-    const source = await this.source.findOne({
-      userId,
-      walletId: createTransactionDto.walletId,
-    });
+    const source = await this.source.findById(createTransactionDto.sourceId);
 
     source.amount =
       source.amount + createTransactionDto.amount * createTransactionDto.type;
@@ -42,12 +40,63 @@ export class TransactionService {
     return trs;
   }
 
-  async findAll(params: { userId: string; walletId: string }) {
-    const trs = await this.transaction
-      .find(params)
-      // .populate('categoryId walletId tags sourceId')
-      .populate('categoryId tags sourceId')
-      .sort('-createdAt');
+  async findAll(
+    userId: string,
+    walletId: string,
+    findTrsQuery: FindTransactionQuery,
+  ) {
+    const {
+      sourceId = '',
+      categoryId = '',
+      page = 0,
+      limit = 10,
+      type,
+    } = findTrsQuery;
+
+    console.log(findTrsQuery);
+
+    let sourceFilter = [];
+    let categoryFilter = [];
+
+    const filter: any = {
+      userId,
+      walletId,
+    };
+
+    if (type == 1 || type == -1) filter.type = type;
+
+    if (sourceId)
+      sourceFilter = sourceId
+        .split(',')
+        .filter((i) => i)
+        .map((item) => ({ sourceId: item }));
+
+    if (categoryId)
+      categoryFilter = categoryId
+        .split(',')
+        .filter((i) => i)
+        .map((item) => ({ categoryId: item }));
+
+    if (sourceFilter.length > 0 && categoryFilter.length === 0)
+      filter.$or = sourceFilter;
+    if (categoryFilter.length > 0 && sourceFilter.length === 0)
+      filter.$or = categoryFilter;
+    if (sourceFilter.length > 0 && categoryFilter.length > 0)
+      filter.$and = [{ $or: categoryFilter }, { $or: sourceFilter }];
+
+    console.log(filter);
+
+    const trs = await this.transaction.find(
+      filter,
+      {},
+      {
+        limit,
+        skip: page * limit,
+        sort: ['-createdAt'],
+        populate: 'categoryId tags sourceId',
+      },
+    );
+
     return trs;
   }
 

@@ -23,6 +23,7 @@ export class SourceService {
       userId,
       amount: 0,
       walletId,
+      initialAmount,
       ...createSourceDto,
     });
 
