@@ -30,7 +30,7 @@ export class SourceService {
     const c = await this.categoryService.findOne(userId, walletId, 1);
     await this.trsService.create(userId, {
       amount: initialAmount,
-      categoryId: c._id,
+      categoryId: c._id.toString(),
       color: '',
       note: '',
       sourceId: source._id.toString(),
