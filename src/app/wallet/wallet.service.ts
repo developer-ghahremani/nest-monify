@@ -9,20 +9,23 @@ export class WalletService {
   constructor(
     @InjectModel(Wallet.name) private readonly wallet: Model<Wallet>,
   ) {}
-  async create(userId: string, createWalletDto: CreateWalletDto) {
-    const wallet = await this.wallet.create({
+  create(userId: string, createWalletDto: CreateWalletDto) {
+    return this.wallet.create({
       userId,
-
       ...createWalletDto,
     });
-    return wallet;
   }
 
-  async findAll(userId: string) {
-    const wallets = await this.wallet
-      .find({ userId })
-      // .populate('userId')
-      .populate('financialUnitId');
-    return wallets;
+  findAll(userId: string) {
+    return (
+      this.wallet
+        .find({ userId })
+        // .populate('userId')
+        .populate('financialUnitId')
+    );
+  }
+
+  findOne(id: string) {
+    return this.wallet.findById(id);
   }
 }

@@ -11,6 +11,7 @@ import { UserModule } from './../user/user.module';
 @Module({
   controllers: [TransactionController],
   providers: [TransactionService],
+  exports: [TransactionService],
   imports: [
     UserModule,
     MongooseModule.forFeature([

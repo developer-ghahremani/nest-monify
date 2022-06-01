@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEnum,
   IsMongoId,
   IsNotEmpty,
@@ -35,4 +36,8 @@ export class CreateCategoryDto {
   @IsOptional()
   @IsMongoId()
   parentId: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isDefault: boolean;
 }

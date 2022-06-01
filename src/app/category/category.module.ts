@@ -9,6 +9,7 @@ import { UserModule } from '../user/user.module';
 @Module({
   controllers: [CategoryController],
   providers: [CategoryService],
+  exports: [CategoryService],
   imports: [
     UserModule,
     MongooseModule.forFeature([

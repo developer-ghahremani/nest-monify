@@ -23,6 +23,9 @@ export class Category {
   @Prop({ default: 1 })
   order: number;
 
+  @Prop({ default: false })
+  isDefault: boolean;
+
   @Prop({ default: new Date() })
   createdAt: Date;
 

@@ -1,16 +1,18 @@
+import { TransactionService } from './../transaction/transaction.service';
 import { CreateSourceDto } from './dto/create-source.dto';
 import { Injectable } from '@nestjs/common';
 import { UpdateSourceDto } from './dto/update-source.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Source } from './entities/source.entity';
 import { Model } from 'mongoose';
-import { Wallet } from '../wallet/entity/wallet.entity';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class SourceService {
   constructor(
-    @InjectModel(Source.name) private source: Model<Source>,
-    @InjectModel(Wallet.name) private wallet: Model<Wallet>,
+    @InjectModel(Source.name) private source: Model<Source>, // @InjectModel(Wallet.name) private wallet: Model<Wallet>,
+    private readonly trsService: TransactionService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   async create(
@@ -19,14 +21,28 @@ export class SourceService {
   ) {
     const source = await this.source.create({
       userId,
-      amount: initialAmount,
+      amount: 0,
       walletId,
       ...createSourceDto,
     });
-    const w = await this.wallet.findById(walletId);
-    w.amount = w.amount + initialAmount;
 
-    await w.save();
+    const c = await this.categoryService.findOne(userId, walletId, 1);
+    await this.trsService.create(userId, {
+      amount: initialAmount,
+      categoryId: c._id,
+      color: '',
+      note: '',
+      sourceId: source._id.toString(),
+      tags: [],
+      walletId,
+      type: 1,
+      createdAt: new Date(),
+    });
+    // const w = await this.walletService.findOne(walletId);
+
+    // w.amount = w.amount + initialAmount;
+
+    // await w.save();
     return source;
   }
 

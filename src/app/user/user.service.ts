@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { WalletService } from '../wallet/wallet.service';
 import { User } from './entity/user.entity';
+import { UpdateUserDto } from '../auth/dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -34,18 +35,14 @@ export class UserService {
     return this.userService.create(params);
   }
 
-  update(
-    id: string,
-    params: {
-      mobile?: string;
-      password?: string;
-      firstName?: string;
-      lastName?: string;
-      birthdate?: Date;
-      username?: string;
-      email?: string;
-    },
-  ) {
+  update(id: string, params: UpdateUserDto) {
+    return this.userService.findByIdAndUpdate(id, {
+      ...params,
+      updatedAt: new Date(),
+    });
+  }
+
+  updatePassword(id: string, params: { password: string }) {
     return this.userService.findByIdAndUpdate(id, {
       ...params,
       updatedAt: new Date(),

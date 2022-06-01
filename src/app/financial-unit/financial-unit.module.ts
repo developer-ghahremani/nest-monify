@@ -11,6 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   controllers: [FinancialUnitController],
   providers: [FinancialUnitService],
+  exports: [FinancialUnitService],
   imports: [
     MongooseModule.forFeature([
       { name: FinancialUnit.name, schema: FinancialUnitSchema },

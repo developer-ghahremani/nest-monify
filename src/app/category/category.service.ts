@@ -17,6 +17,12 @@ export class CategoryService {
     return category;
   }
 
+  bulkInsert(userId: string, createCategoryDtos: CreateCategoryDto[]) {
+    return this.category.insertMany(
+      createCategoryDtos.map((item, order) => ({ ...item, userId, order })),
+    );
+  }
+
   async findAll(userId: string, walletId: string) {
     const categories = await this.category
       .find({
@@ -37,9 +43,9 @@ export class CategoryService {
     return categoryWithChildren;
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} category`;
-  // }
+  findOne(userId: string, walletId: string, type: number) {
+    return this.category.findOne({ userId, walletId, type });
+  }
 
   async update(
     userId: string,
