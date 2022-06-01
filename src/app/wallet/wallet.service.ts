@@ -1,3 +1,4 @@
+import { UpdateWalletDto } from './dto/updateWallet.dto';
 import { Wallet } from './entity/wallet.entity';
 import { CreateWalletDto } from './dto/createWalet.dto';
 import { Injectable } from '@nestjs/common';
@@ -25,7 +26,17 @@ export class WalletService {
     );
   }
 
-  findOne(id: string) {
-    return this.wallet.findById(id);
+  findOne(userId: string, _id: string) {
+    return this.wallet.findOne({ userId, _id });
+  }
+
+  update(userId: string, walletId: string, updateWalletDto: UpdateWalletDto) {
+    return this.wallet.findOneAndUpdate(
+      {
+        userId,
+        _id: walletId,
+      },
+      updateWalletDto,
+    );
   }
 }
