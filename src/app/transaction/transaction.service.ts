@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as moment from 'moment';
 
 @Injectable()
 export class TransactionService {
@@ -51,9 +52,9 @@ export class TransactionService {
       page = 0,
       limit = 10,
       type,
+      fromDate,
+      toDate,
     } = findTrsQuery;
-
-    console.log(findTrsQuery);
 
     let sourceFilter = [];
     let categoryFilter = [];
@@ -61,6 +62,10 @@ export class TransactionService {
     const filter: any = {
       userId,
       walletId,
+      createdAt: {
+        $gt: moment().add(-7, 'days').toISOString(),
+        $lt: moment(),
+      },
     };
 
     if (type == 1 || type == -1) filter.type = type;
@@ -84,7 +89,10 @@ export class TransactionService {
     if (sourceFilter.length > 0 && categoryFilter.length > 0)
       filter.$and = [{ $or: categoryFilter }, { $or: sourceFilter }];
 
-    console.log(filter);
+    if (fromDate) filter.createdAt['$gt'] = fromDate;
+    if (toDate) filter.createdAt['$lt'] = toDate;
+
+    console.log(filter, 'filter');
 
     const trs = await this.transaction.find(
       filter,

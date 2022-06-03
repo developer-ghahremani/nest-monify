@@ -1,4 +1,4 @@
-import { IsOptional } from 'class-validator';
+import { IsDate, IsDateString, IsOptional } from 'class-validator';
 
 export class FindTransactionQuery {
   @IsOptional()
@@ -15,4 +15,12 @@ export class FindTransactionQuery {
 
   @IsOptional()
   page: number;
+
+  @IsOptional()
+  @IsDateString()
+  fromDate: Date;
+
+  @IsOptional()
+  @IsDateString()
+  toDate: Date;
 }
